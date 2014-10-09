@@ -5,6 +5,14 @@ public class Retrier {
     public final int delay;
     public final ExceptionMatcher exceptionMatcher;
 
+    public static Retrier retryOn(ExceptionMatcher exceptionMatches) {
+        return new Retrier(exceptionMatches);
+    }
+
+    public static Retrier retryOn(Class<? extends Exception> ...exceptions) {
+        return retryOn(new ExceptionIn(exceptions));
+    }
+
     public Retrier(ExceptionMatcher exceptionMatcher) {
         this(exceptionMatcher, 1, 0);
     }
