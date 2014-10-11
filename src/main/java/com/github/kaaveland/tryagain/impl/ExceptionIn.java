@@ -22,7 +22,7 @@ public class ExceptionIn implements ExceptionMatcher {
     }
 
     @Override
-    public boolean matches(final Exception exception) {
+    public boolean retry(final Exception exception) {
         return exceptionTypes.contains(exception.getClass());
     }
 }

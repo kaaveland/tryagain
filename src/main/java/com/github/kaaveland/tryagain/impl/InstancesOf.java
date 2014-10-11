@@ -19,7 +19,7 @@ public class InstancesOf implements ExceptionMatcher {
     }
 
     @Override
-    public boolean matches(final Exception exception) {
+    public boolean retry(final Exception exception) {
         for (Class<? extends Exception> exceptionType : exceptionTypes) {
             if (exceptionType.isInstance(exception)) {
                 return true;

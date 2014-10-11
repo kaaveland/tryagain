@@ -26,7 +26,7 @@ public class BypassExceptionCheckingTest {
 
     private Retrier retrier = Retrier.retryOn(new ExceptionMatcher() {
         @Override
-        public boolean matches(final Exception exception) {
+        public boolean retry(final Exception exception) {
             return true;
         }
     });

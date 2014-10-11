@@ -13,13 +13,13 @@ public class ExceptionInTest {
 
     @Test
     public void that_exception_in_matches_given_exceptions() {
-        assertThat(runtimeAndIOException.matches(new RuntimeException()), is(true));
-        assertThat(runtimeAndIOException.matches(new IOException()), is(true));
+        assertThat(runtimeAndIOException.retry(new RuntimeException()), is(true));
+        assertThat(runtimeAndIOException.retry(new IOException()), is(true));
     }
 
     @Test
     public void that_exception_in_matches_exactly_and_not_subclasses() {
-        assertThat(runtimeAndIOException.matches(new IllegalArgumentException()), is(false));
+        assertThat(runtimeAndIOException.retry(new IllegalArgumentException()), is(false));
     }
 
 }
