@@ -8,6 +8,7 @@ import java.io.IOException;
 import static com.github.kaaveland.tryagain.api.Retrier.on;
 import static com.github.kaaveland.tryagain.api.Retrier.onInstanceOf;
 import static junit.framework.Assert.fail;
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
@@ -129,6 +130,20 @@ public class RetrierTest {
         verify(delay).delay(1);
         verify(delay).delay(2);
         verifyNoMoreInteractions(delay);
+    }
+
+    @Test
+    public void that_retrier_returns_the_result_of_operation() {
+        String result = on(RuntimeException.class).maxAttempts(2).wrapExceptions().execute(new Retriable<String>() {
+            @Override
+            public String execute(final int attempt) throws Exception {
+                if (attempt == 1) {
+                    throw new RuntimeException();
+                }
+                return "Result";
+            }
+        });
+        assertThat(result, equalTo("Result"));
     }
 
 }
