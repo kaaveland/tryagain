@@ -3,3 +3,4 @@ target
 .eclipse
 .classpath
 *.iml
+/.DS_Store
