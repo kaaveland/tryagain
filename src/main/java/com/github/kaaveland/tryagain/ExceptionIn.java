@@ -12,8 +12,9 @@ public class ExceptionIn implements ExceptionMatcher {
         this.exceptionTypes = exceptionTypes;
     }
 
+    @SafeVarargs
     public ExceptionIn(Class<? extends Exception> ... exceptionTypes) {
-        this(new HashSet<Class<? extends Exception>>(Arrays.asList(exceptionTypes)));
+        this(new HashSet<>(Arrays.asList(exceptionTypes)));
     }
 
     @Override

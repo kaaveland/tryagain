@@ -9,6 +9,7 @@ public class Retrier {
         return new Retrier(exceptionMatches);
     }
 
+    @SafeVarargs
     public static Retrier retryOn(Class<? extends Exception> ...exceptions) {
         return retryOn(new ExceptionIn(exceptions));
     }
