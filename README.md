@@ -40,14 +40,7 @@ possible to configure exceptions to be wrapped in WrappedException,
 which is a RuntimeException:
 
 ```java
-on(RuntimeException.class).maxAttempts(2).wrapExceptions().execute(new Retriable<String>() {
-    @Override
-    public String execute(final int attempt) throws Exception {
-        if (attempt == 1) {
-            throw new RuntimeException();
-        }
-        return "Result";
-    }
+on(IOException.class).maxAttempts(2).wrapExceptions().execute(throwsIOException);
 ```
 
 Or if you don't want to have to worry about exception-handling further
@@ -55,14 +48,7 @@ up the callstack, you can bypass checked exceptions entirely, so thrown
 exceptions are rethrown with no wrapping:
 
 ```java
-on(RuntimeException.class).maxAttempts(2).bypassExceptionChecking().execute(new Retriable<String>() {
-    @Override
-    public String execute(final int attempt) throws Exception {
-        if (attempt == 1) {
-            throw new RuntimeException();
-        }
-        return "Result";
-    }
+on(IOException.class).maxAttempts(2).bypassExceptionChecking().execute(throwsIOException);
 ```
 
 Use the last one responsibly, it'll be able to throw exceptions that it
