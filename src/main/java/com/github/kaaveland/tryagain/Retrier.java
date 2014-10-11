@@ -2,7 +2,7 @@ package com.github.kaaveland.tryagain;
 
 public class Retrier {
     public final int times;
-    public final int delay;
+    public final DelayStrategy delayStrategy;
     public final ExceptionMatcher exceptionMatcher;
 
     public static Retrier retryOn(ExceptionMatcher exceptionMatches) {
@@ -14,21 +14,30 @@ public class Retrier {
     }
 
     public Retrier(ExceptionMatcher exceptionMatcher) {
-        this(exceptionMatcher, 1, 0);
+        this(exceptionMatcher, 1, new DelayStrategy() {
+            @Override
+            public long delay(final int attempt) {
+                return 0;
+            }
+        });
     }
 
-    public Retrier(ExceptionMatcher exceptionMatcher, int times, int delay) {
+    public Retrier(ExceptionMatcher exceptionMatcher, int times, DelayStrategy delayStrategy) {
         this.exceptionMatcher = exceptionMatcher;
         this.times = times;
-        this.delay = delay;
+        this.delayStrategy = delayStrategy;
     }
 
     public Retrier times(int times) {
-        return new Retrier(exceptionMatcher, times, delay);
+        return new Retrier(exceptionMatcher, times, delayStrategy);
     }
 
     public Retrier delaying(int delay) {
-        return new Retrier(exceptionMatcher, times, delay);
+        return new Retrier(exceptionMatcher, times, new StaticDelayStrategy(delay));
+    }
+
+    public Retrier exponentialBackoff(int firstDelay) {
+        return new Retrier(exceptionMatcher, times, new ExponentialBackoffStrategy(firstDelay));
     }
 
     public WrapExceptions wrapExceptions() {
@@ -44,21 +53,21 @@ public class Retrier {
     }
 
     public <T> T execute(Retriable<T> operation) throws Exception {
-        for (int attempt = 0; attempt < times; attempt++) {
+        for (int attempt = 1; attempt < times; attempt++) {
             try {
                 return operation.execute(attempt);
             } catch (Exception exception) {
                 if (!exceptionMatcher.matches(exception)) {
                     throw exception;
                 }
-                delay();
+                delay(attempt);
             }
         }
         return operation.execute(times);
     }
 
-    private void delay() throws InterruptedException {
-        Thread.sleep(delay);
+    private void delay(int attempt) throws InterruptedException {
+        Thread.sleep(delayStrategy.delay(attempt));
     }
 
     public static Retriable<Void> from(final RetriableWithoutResult withoutResult) {
