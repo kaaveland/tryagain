@@ -3,7 +3,7 @@ package com.github.kaaveland.tryagain.api;
 import com.github.kaaveland.tryagain.impl.BypassExceptionChecking;
 import com.github.kaaveland.tryagain.impl.ExceptionIn;
 import com.github.kaaveland.tryagain.impl.ExponentialBackoffStrategy;
-import com.github.kaaveland.tryagain.impl.InstancesOf;
+import com.github.kaaveland.tryagain.impl.InstanceOf;
 import com.github.kaaveland.tryagain.impl.StaticDelayStrategy;
 import com.github.kaaveland.tryagain.impl.WrapExceptions;
 
@@ -50,7 +50,7 @@ public class Retrier {
      */
     @SafeVarargs
     public static Retrier onInstanceOf(Class<? extends Exception>... exceptions) {
-        return new Retrier(new InstancesOf(exceptions));
+        return new Retrier(new InstanceOf(exceptions));
     }
 
     /**

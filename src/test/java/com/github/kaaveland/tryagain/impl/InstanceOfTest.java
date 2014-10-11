@@ -8,8 +8,8 @@ import java.io.IOException;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class InstancesOfTest {
-    ExceptionMatcher runtimeException = new InstancesOf(RuntimeException.class);
+public class InstanceOfTest {
+    ExceptionMatcher runtimeException = new InstanceOf(RuntimeException.class);
 
     @Test
     public void that_illegal_argument_exception_matches_instances_of_runtime_exception() {

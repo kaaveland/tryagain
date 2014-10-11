@@ -6,15 +6,18 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class InstancesOf implements ExceptionMatcher {
+/**
+ * This will match exceptions that are instances of any of the classes passed in to constructor.
+ */
+public class InstanceOf implements ExceptionMatcher {
     private final List<Class<? extends Exception>> exceptionTypes;
 
-    public InstancesOf(final List<Class<? extends Exception>> exceptionTypes) {
+    public InstanceOf(final List<Class<? extends Exception>> exceptionTypes) {
         this.exceptionTypes = Collections.unmodifiableList(exceptionTypes);
     }
 
     @SafeVarargs
-    public InstancesOf(Class<? extends Exception>... exceptionTypes) {
+    public InstanceOf(Class<? extends Exception>... exceptionTypes) {
         this(Arrays.asList(exceptionTypes));
     }
 
