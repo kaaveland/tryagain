@@ -10,8 +10,13 @@ public class Retrier {
     }
 
     @SafeVarargs
-    public static Retrier retryOn(Class<? extends Exception> ...exceptions) {
-        return retryOn(new ExceptionIn(exceptions));
+    public static Retrier on(Class<? extends Exception>... exceptions) {
+        return new Retrier(new ExceptionIn(exceptions));
+    }
+
+    @SafeVarargs
+    public static Retrier onInstanceOf(Class<? extends Exception>... exceptions) {
+        return new Retrier(new InstancesOf(exceptions));
     }
 
     public Retrier(ExceptionMatcher exceptionMatcher) {
