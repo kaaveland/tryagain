@@ -1,8 +1,6 @@
 package com.github.kaaveland.tryagain.api;
 
-import com.github.kaaveland.tryagain.api.RetriableWithoutResult;
-import com.github.kaaveland.tryagain.api.Retrier;
-import com.github.kaaveland.tryagain.api.WrappedException;
+import com.github.kaaveland.tryagain.impl.ExceptionIn;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -10,6 +8,10 @@ import java.io.IOException;
 import static com.github.kaaveland.tryagain.api.Retrier.on;
 import static com.github.kaaveland.tryagain.api.Retrier.onInstanceOf;
 import static junit.framework.Assert.fail;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.greaterThanOrEqualTo;
+import static org.hamcrest.Matchers.lessThan;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
@@ -95,4 +97,38 @@ public class RetrierTest {
         }
         on(RuntimeException.class).bypassExceptionChecking().execute(operation);
     }
+
+    @Test
+    public void that_we_sleep_the_amount_of_time_specified_by_delayStrategy() {
+        Retrier retrier = on(RuntimeException.class).maxAttempts(2).withDelay(1000);
+        RetriableWithoutResult operation = mock(RetriableWithoutResult.class);
+        try {
+            doThrow(new RuntimeException()).when(operation).execute(1);
+        } catch (Exception e) {
+            fail("Shouldn't fail when setting up mock");
+        }
+        long before = System.currentTimeMillis();
+        retrier.wrapExceptions().execute(operation);
+        long elapsed = System.currentTimeMillis() - before;
+        assertThat(elapsed, is(greaterThanOrEqualTo(1000L)));
+        assertThat(elapsed, is(lessThan(1100L)));
+    }
+
+    @Test
+    public void that_we_invoke_delayStrategy_with_attempts_in_order() {
+        DelayStrategy delay = mock(DelayStrategy.class);
+        Retrier retrier = new Retrier(new ExceptionIn(RuntimeException.class), 3, delay);
+        RetriableWithoutResult operation = mock(RetriableWithoutResult.class);
+        try {
+            doThrow(new RuntimeException()).when(operation).execute(1);
+            doThrow(new RuntimeException()).when(operation).execute(2);
+        } catch (Exception e) {
+            fail("Shouldn't fail when setting up mock");
+        }
+        retrier.wrapExceptions().execute(operation);
+        verify(delay).delay(1);
+        verify(delay).delay(2);
+        verifyNoMoreInteractions(delay);
+    }
+
 }
