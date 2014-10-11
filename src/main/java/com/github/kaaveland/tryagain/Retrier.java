@@ -45,7 +45,7 @@ public class Retrier {
         return new Retrier(exceptionMatcher, times, delayStrategy);
     }
 
-    public Retrier withDelay(int delay) {
+    public Retrier withDelay(long delay) {
         return new Retrier(exceptionMatcher, times, new StaticDelayStrategy(delay));
     }
 
