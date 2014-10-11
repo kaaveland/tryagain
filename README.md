@@ -91,5 +91,5 @@ Other considerations
 
 All classes exposed through the library are immutable and should be
 threadsafe. Retriers can be new()ed safely and shared between objects
-that should have the same settings. Or they can be created using the
-factory-methods on Retrier.
+that should have the same settings or they can be created from the
+factory methods on TryAgain.
