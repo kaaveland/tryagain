@@ -19,7 +19,15 @@ on(RuntimeException.class).maxAttempts(2).execute(new Retriable<String>() {
 ```
 
 The library throws Exception so that Retriables don't have to rethrow
-checked exceptions as something else.
+checked exceptions as something else. `on()` accepts multiple
+exceptions:
+
+```java
+on(HttpResponseException.class, SocketTimeoutException.class)
+    .maxAttempts(10)
+    .withDelay(1000)
+    .execute(saveDocument);
+```
 
 To invoke a `void` method, implement `RetriableWithoutResult` instead of
 Retriable.
@@ -43,8 +51,9 @@ on(RuntimeException.class).maxAttempts(2).wrapExceptions().execute(new Retriable
 ```
 
 Or if you don't want to have to worry about exception-handling further
-up the callstack, you can bypass checked exceptions entirely, so now
-thrown exceptions are wrapped:
+up the callstack, you can bypass checked exceptions entirely, so thrown
+exceptions are rethrown with no wrapping:
+
 ```java
 on(RuntimeException.class).maxAttempts(2).bypassExceptionChecking().execute(new Retriable<String>() {
     @Override
@@ -63,7 +72,9 @@ isn't dead, you can use `.declare(IOException.class)` on the object
 returned by `bypassExceptionChecking':
 
 ```java
-on(IOException.class).maxAttempts(10).bypassExceptionChecking().declare(IOException.class).execute(operation);
+on(IOException.class, RuntimeException.class)
+    .maxAttempts(10).bypassExceptionChecking().declare(IOException.class)
+    .execute(operation);
 ```
 
 Retrier.on() vs Retrier.onInstanceOf()
