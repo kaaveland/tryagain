@@ -7,6 +7,15 @@
   <groupId>com.github.kaaveland</groupId>
   <artifactId>tryagain</artifactId>
   <version>0.1.0-SNAPSHOT</version>
+  <packaging>jar</packaging>
+
+  <licenses>
+    <license>
+      <name>BSD 2-Clause License</name>
+      <url>http://opensource.org/licenses/BSD-2-Clause</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
 
   <properties>
     <hamcrest.version>1.3</hamcrest.version>
