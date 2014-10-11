@@ -5,8 +5,8 @@ import org.junit.Test;
 
 import java.io.IOException;
 
-import static com.github.kaaveland.tryagain.api.Retrier.on;
-import static com.github.kaaveland.tryagain.api.Retrier.onInstanceOf;
+import static com.github.kaaveland.tryagain.api.TryAgain.on;
+import static com.github.kaaveland.tryagain.api.TryAgain.onInstanceOf;
 import static junit.framework.Assert.fail;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
@@ -25,7 +25,7 @@ public class RetrierTest {
     @Test
     public void that_translated_retriablewithoutresult_invokes_source_once() throws Exception {
         RetriableWithoutResult source = mock(RetriableWithoutResult.class);
-        Retrier.from(source).execute(1);
+        TryAgain.from(source).execute(1);
         verify(source, times(1)).execute(1);
     }
 

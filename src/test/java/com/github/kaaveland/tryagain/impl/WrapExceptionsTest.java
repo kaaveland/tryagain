@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 
-import static com.github.kaaveland.tryagain.api.Retrier.on;
+import static com.github.kaaveland.tryagain.api.TryAgain.on;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.MatcherAssert.assertThat;
 

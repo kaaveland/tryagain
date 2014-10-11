@@ -1,14 +1,12 @@
 package com.github.kaaveland.tryagain.api;
 
 import com.github.kaaveland.tryagain.impl.BypassExceptionChecking;
-import com.github.kaaveland.tryagain.impl.ExceptionIn;
 import com.github.kaaveland.tryagain.impl.ExponentialBackoffStrategy;
-import com.github.kaaveland.tryagain.impl.InstanceOf;
 import com.github.kaaveland.tryagain.impl.StaticDelayStrategy;
 import com.github.kaaveland.tryagain.impl.WrapExceptions;
 
 /**
- * Retrier is the entry point for tryagain that exposes the core functionality of the library.
+ * Retrier ties together all the classes that are used in tryagain to put retries around code.
  *
  * It is an immutable object, the methods used to reconfigure it return a new instance.
  */
@@ -25,33 +23,6 @@ public class Retrier {
      * The exceptionMatcher decides whether to retry on a certain exception or to rethrow it.
      */
     public final ExceptionMatcher exceptionMatcher;
-
-    public static Retrier retryOn(ExceptionMatcher exceptionMatches) {
-        return new Retrier(exceptionMatches);
-    }
-
-    /**
-     * This creates a Retrier with an ExceptionMatcher that matches exactly on exception class.
-     *
-     * This does not do instance-checking, so subclasses of exceptions are not retried.
-     *
-     * @param exceptions exception-classes to retry
-     * @return A Retrier configured with an ExceptionIn-matcher.
-     */
-    @SafeVarargs
-    public static Retrier on(Class<? extends Exception>... exceptions) {
-        return new Retrier(new ExceptionIn(exceptions));
-    }
-
-    /**
-     * This creates a Retrier with an ExceptionMatcher that does checks with Class.instanceOf.
-     * @param exceptions exception classes to instance-check against
-     * @return A Retrier configured with an InstanceOf exception-matcher
-     */
-    @SafeVarargs
-    public static Retrier onInstanceOf(Class<? extends Exception>... exceptions) {
-        return new Retrier(new InstanceOf(exceptions));
-    }
 
     /**
      * A default Retrier that will invoke a retriable only once and use no delay between invocations.
@@ -126,7 +97,7 @@ public class Retrier {
      * @throws Exception
      */
     public void execute(RetriableWithoutResult operation) throws Exception {
-        execute(from(operation));
+        execute(TryAgain.from(operation));
     }
 
     /**
@@ -152,21 +123,6 @@ public class Retrier {
 
     private void delay(int attempt) throws InterruptedException {
         Thread.sleep(delayStrategy.delay(attempt));
-    }
-
-    /**
-     * Translate a RetriableWithoutResult to a Retriable of Void.
-     * @param withoutResult
-     * @return
-     */
-    public static Retriable<Void> from(final RetriableWithoutResult withoutResult) {
-        return new Retriable<Void>() {
-            @Override
-            public Void execute(final int attempt) throws Exception {
-                withoutResult.execute(attempt);
-                return null;
-            }
-        };
     }
 
 }

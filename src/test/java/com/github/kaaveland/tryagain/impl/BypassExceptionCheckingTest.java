@@ -4,6 +4,7 @@ import com.github.kaaveland.tryagain.api.ExceptionMatcher;
 import com.github.kaaveland.tryagain.api.Retriable;
 import com.github.kaaveland.tryagain.api.RetriableWithoutResult;
 import com.github.kaaveland.tryagain.api.Retrier;
+import com.github.kaaveland.tryagain.api.TryAgain;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -24,7 +25,7 @@ public class BypassExceptionCheckingTest {
         }
     }
 
-    private Retrier retrier = Retrier.retryOn(new ExceptionMatcher() {
+    private Retrier retrier = TryAgain.retryOn(new ExceptionMatcher() {
         @Override
         public boolean retry(final Exception exception) {
             return true;
