@@ -76,6 +76,18 @@ public class Retrier {
     }
 
     /**
+     * Enable a custom delay strategy to calculate delays after attempts.
+     *
+     * DelayStrategies have the attempt number passed in as their argument.
+     *
+     * @param delayStrategy
+     * @return A copy of this Retrier with a new delayStrategy.
+     */
+    public Retrier withDelayStrategy(DelayStrategy delayStrategy) {
+        return new Retrier(exceptionMatcher, maxAttempts, delayStrategy);
+    }
+
+    /**
      * Wrap all exceptions for Retriables in WrappedException.
      * @return A new WrapExceptions delegating invocations of Retriable to this Retrier and wrapping exceptions.
      */

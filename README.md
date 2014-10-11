@@ -7,7 +7,7 @@ systems. This is error-prone code that often has to be added in a rush.
 
 Using tryagain, it looks like this:
 ```java
-TryAgain.on(RuntimeException.class)
+String result = TryAgain.on(RuntimeException.class)
     .maxAttempts(2).execute(new Retriable<String>() {
     @Override
     public String execute(final int attempt) throws Exception {
@@ -19,7 +19,7 @@ TryAgain.on(RuntimeException.class)
 });
 ```
 
-The library throws Exception so that Retriables don't have to rethrow
+The library throws `Exception` so that `Retriab` doesn't have to rethrow
 checked exceptions as something else. `on()` accepts multiple
 exceptions:
 
@@ -33,26 +33,38 @@ TryAgain.on(HttpResponseException.class, SocketTimeoutException.class)
 To invoke a `void` method, implement `RetriableWithoutResult` instead of
 Retriable.
 
+TryAgain.on() vs TryAgain.onInstanceOf()
+----
+
+`TryAgain.on` matches *exactly* on the class of the exception, it does not
+use an instance-check and will never match on subclasses. If you need to
+retry *all* subclasses of `IOException`, you need to use
+`TryAgain.onInstanceOf`.
+
+
 Avoiding checked exceptions
 -----
 
 In order to avoid having to declare `throws Exception` everywhere, it is
-possible to configure exceptions to be wrapped in WrappedException,
-which is a RuntimeException:
+possible to configure exceptions to be wrapped in `WrappedException`,
+which is a `RuntimeException`:
 
 ```java
 TryAgain.on(IOException.class)
     .maxAttempts(2).wrapExceptions().execute(throwsIOException);
 ```
 
-Or if you don't want to have to worry about exception-handling further
-up the callstack, you can bypass checked exceptions entirely, so thrown
-exceptions are rethrown with no wrapping:
+Or if you don't want to have to worry about breaking exception-handling
+further up the callstack, you can bypass checked exceptions entirely, so
+thrown exceptions are rethrown with no wrapping:
 
 ```java
 TryAgain.on(IOException.class)
     .maxAttempts(2).bypassExceptionChecking().execute(throwsIOException);
 ```
+
+This allows you to surgically insert retries into code without knowing
+too much about the code that is calling down to you.
 
 Use the last one responsibly, it'll be able to throw exceptions that it
 does not declare. If you try to catch these, javac will helpfully tell
@@ -61,16 +73,10 @@ isn't dead, you can use `.declare(IOException.class)` on the object
 returned by `bypassExceptionChecking()`:
 
 ```java
-on(IOException.class, RuntimeException.class)
+TryAgain.on(IOException.class, RuntimeException.class)
     .maxAttempts(10).bypassExceptionChecking().declare(IOException.class)
     .execute(operation);
 ```
-
-Retrier.on() vs Retrier.onInstanceOf()
-----
-
-Retrier.on matches *exactly* on the class of the exception, it does not
-use an instance-check and will never match on subclasses.
 
 Adding delays between retries
 ----
