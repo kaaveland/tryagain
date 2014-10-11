@@ -1,7 +1,6 @@
 package com.github.kaaveland.tryagain.impl;
 
-import com.github.kaaveland.tryagain.DelayStrategy;
-import com.github.kaaveland.tryagain.impl.ExponentialBackoffStrategy;
+import com.github.kaaveland.tryagain.api.DelayStrategy;
 import org.junit.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;

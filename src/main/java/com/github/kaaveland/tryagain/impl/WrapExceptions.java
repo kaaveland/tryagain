@@ -1,9 +1,9 @@
 package com.github.kaaveland.tryagain.impl;
 
-import com.github.kaaveland.tryagain.Retriable;
-import com.github.kaaveland.tryagain.RetriableWithoutResult;
-import com.github.kaaveland.tryagain.Retrier;
-import com.github.kaaveland.tryagain.WrappedException;
+import com.github.kaaveland.tryagain.api.Retriable;
+import com.github.kaaveland.tryagain.api.RetriableWithoutResult;
+import com.github.kaaveland.tryagain.api.Retrier;
+import com.github.kaaveland.tryagain.api.WrappedException;
 
 public class WrapExceptions {
     public final Retrier retrier;

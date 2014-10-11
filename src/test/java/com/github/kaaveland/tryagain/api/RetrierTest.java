@@ -1,11 +1,14 @@
-package com.github.kaaveland.tryagain;
+package com.github.kaaveland.tryagain.api;
 
+import com.github.kaaveland.tryagain.api.RetriableWithoutResult;
+import com.github.kaaveland.tryagain.api.Retrier;
+import com.github.kaaveland.tryagain.api.WrappedException;
 import org.junit.Test;
 
 import java.io.IOException;
 
-import static com.github.kaaveland.tryagain.Retrier.on;
-import static com.github.kaaveland.tryagain.Retrier.onInstanceOf;
+import static com.github.kaaveland.tryagain.api.Retrier.on;
+import static com.github.kaaveland.tryagain.api.Retrier.onInstanceOf;
 import static junit.framework.Assert.fail;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.doThrow;

@@ -1,14 +1,14 @@
 package com.github.kaaveland.tryagain.impl;
 
-import com.github.kaaveland.tryagain.Retriable;
-import com.github.kaaveland.tryagain.RetriableWithoutResult;
-import com.github.kaaveland.tryagain.Retrier;
-import com.github.kaaveland.tryagain.WrappedException;
+import com.github.kaaveland.tryagain.api.Retriable;
+import com.github.kaaveland.tryagain.api.RetriableWithoutResult;
+import com.github.kaaveland.tryagain.api.Retrier;
+import com.github.kaaveland.tryagain.api.WrappedException;
 import org.junit.Test;
 
 import java.io.IOException;
 
-import static com.github.kaaveland.tryagain.Retrier.on;
+import static com.github.kaaveland.tryagain.api.Retrier.on;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.MatcherAssert.assertThat;
 

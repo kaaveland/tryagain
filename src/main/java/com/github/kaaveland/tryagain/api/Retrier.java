@@ -1,4 +1,4 @@
-package com.github.kaaveland.tryagain;
+package com.github.kaaveland.tryagain.api;
 
 import com.github.kaaveland.tryagain.impl.BypassExceptionChecking;
 import com.github.kaaveland.tryagain.impl.ExceptionIn;
