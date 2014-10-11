@@ -69,7 +69,7 @@ Use the last one responsibly, it'll be able to throw exceptions that it
 does not declare. If you try to catch these, javac will helpfully tell
 you that you have dead code. In order to convince javac that the code
 isn't dead, you can use `.declare(IOException.class)` on the object
-returned by `bypassExceptionChecking':
+returned by `bypassExceptionChecking()`:
 
 ```java
 on(IOException.class, RuntimeException.class)
