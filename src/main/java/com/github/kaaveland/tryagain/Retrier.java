@@ -1,5 +1,12 @@
 package com.github.kaaveland.tryagain;
 
+import com.github.kaaveland.tryagain.impl.BypassExceptionChecking;
+import com.github.kaaveland.tryagain.impl.ExceptionIn;
+import com.github.kaaveland.tryagain.impl.ExponentialBackoffStrategy;
+import com.github.kaaveland.tryagain.impl.InstancesOf;
+import com.github.kaaveland.tryagain.impl.StaticDelayStrategy;
+import com.github.kaaveland.tryagain.impl.WrapExceptions;
+
 public class Retrier {
     public final int times;
     public final DelayStrategy delayStrategy;
@@ -34,11 +41,11 @@ public class Retrier {
         this.delayStrategy = delayStrategy;
     }
 
-    public Retrier times(int times) {
+    public Retrier maxAttempts(int times) {
         return new Retrier(exceptionMatcher, times, delayStrategy);
     }
 
-    public Retrier delaying(int delay) {
+    public Retrier withDelay(int delay) {
         return new Retrier(exceptionMatcher, times, new StaticDelayStrategy(delay));
     }
 

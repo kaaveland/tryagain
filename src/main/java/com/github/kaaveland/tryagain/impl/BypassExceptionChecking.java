@@ -1,4 +1,8 @@
-package com.github.kaaveland.tryagain;
+package com.github.kaaveland.tryagain.impl;
+
+import com.github.kaaveland.tryagain.Retriable;
+import com.github.kaaveland.tryagain.RetriableWithoutResult;
+import com.github.kaaveland.tryagain.Retrier;
 
 public class BypassExceptionChecking {
     private final Retrier retrier;

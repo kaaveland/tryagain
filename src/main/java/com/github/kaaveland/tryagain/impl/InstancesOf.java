@@ -1,4 +1,6 @@
-package com.github.kaaveland.tryagain;
+package com.github.kaaveland.tryagain.impl;
+
+import com.github.kaaveland.tryagain.ExceptionMatcher;
 
 import java.util.Arrays;
 import java.util.Collections;

@@ -1,5 +1,6 @@
-package com.github.kaaveland.tryagain;
+package com.github.kaaveland.tryagain.impl;
 
+import com.github.kaaveland.tryagain.ExceptionMatcher;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -13,7 +14,7 @@ public class ExceptionInTest {
     @Test
     public void that_exception_in_matches_given_exceptions() {
         assertThat(runtimeAndIOException.matches(new RuntimeException()), is(true));
-        assertThat(runtimeAndIOException.matches(new IOException()), is(false));
+        assertThat(runtimeAndIOException.matches(new IOException()), is(true));
     }
 
     @Test

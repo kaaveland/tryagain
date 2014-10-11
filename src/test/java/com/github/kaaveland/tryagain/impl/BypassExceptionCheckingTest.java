@@ -1,5 +1,9 @@
-package com.github.kaaveland.tryagain;
+package com.github.kaaveland.tryagain.impl;
 
+import com.github.kaaveland.tryagain.ExceptionMatcher;
+import com.github.kaaveland.tryagain.Retriable;
+import com.github.kaaveland.tryagain.RetriableWithoutResult;
+import com.github.kaaveland.tryagain.Retrier;
 import org.junit.Test;
 
 import java.io.IOException;

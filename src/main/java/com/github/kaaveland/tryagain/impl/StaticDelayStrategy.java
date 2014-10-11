@@ -1,4 +1,6 @@
-package com.github.kaaveland.tryagain;
+package com.github.kaaveland.tryagain.impl;
+
+import com.github.kaaveland.tryagain.DelayStrategy;
 
 public class StaticDelayStrategy implements DelayStrategy {
     private final long delay;

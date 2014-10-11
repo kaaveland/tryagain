@@ -1,4 +1,4 @@
-package com.github.kaaveland.tryagain;
+package com.github.kaaveland.tryagain.impl;
 
 public class ThrowUncheckedHack<E extends Exception> {
     public static void throwUnchecked(Exception t) {
