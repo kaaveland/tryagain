@@ -3,11 +3,9 @@ tryagain
 
 Micro-library to take away the tedious task of writing counting loops
 for retrying actions that might fail because of unstable networks or end
-systems. This is error-prone code that should always have tests -- by
-using a library, it becomes much simpler to make code behave more
-robustly.
+systems. This is error-prone code that often has to be added in a rush.
 
-The basic use looks like this:
+Using tryagain, it looks like this:
 ```java
 on(RuntimeException.class).maxAttempts(2).execute(new Retriable<String>() {
     @Override
@@ -20,8 +18,8 @@ on(RuntimeException.class).maxAttempts(2).execute(new Retriable<String>() {
 });
 ```
 
-Because the library must catch Exception, it also has to declare to
-throw Exception even if it is possible that it will not happen.
+The library throws Exception so that Retriables don't have to rethrow
+checked exceptions as something else.
 
 To invoke a `void` method, implement `RetriableWithoutResult` instead of
 Retriable.
@@ -81,3 +79,12 @@ Sometimes it is useful to have delays between attempts to invoke
 services over the network. `.withDelay(millis)` will add static a delay between
 retries and `.exponentialBackoff(millis)` will use exponential backoff
 to calculate delays.
+
+Other considerations
+-----
+
+All classes exposed through the library are immutable and should be
+threadsafe. Retriers can be new()ed safely and shared between objects
+that should have the same settings. Or they can be created using the
+factory-methods on Retrier. The api-package contains everything needed
+to use tryagain.

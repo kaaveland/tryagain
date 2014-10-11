@@ -6,12 +6,14 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import static java.util.Collections.unmodifiableSet;
+
 public class ExceptionIn implements ExceptionMatcher {
 
     private final Set<Class<? extends Exception>> exceptionTypes;
 
     public ExceptionIn(final Set<Class<? extends Exception>> exceptionTypes) {
-        this.exceptionTypes = exceptionTypes;
+        this.exceptionTypes = unmodifiableSet(exceptionTypes);
     }
 
     @SafeVarargs
