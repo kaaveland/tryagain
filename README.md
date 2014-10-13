@@ -19,7 +19,7 @@ String result = TryAgain.on(RuntimeException.class)
 });
 ```
 
-The library throws `Exception` so that `Retriab` doesn't have to rethrow
+The library throws `Exception` so that `Retriable` doesn't have to rethrow
 checked exceptions as something else. `on()` accepts multiple
 exceptions:
 
