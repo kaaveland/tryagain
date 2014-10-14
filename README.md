@@ -19,6 +19,16 @@ String result = TryAgain.on(RuntimeException.class)
 });
 ```
 
+Maven dependency
+-----
+```xml
+<dependency>
+  <groupId>com.github.kaaveland</groupId>
+  <artifactId>tryagain</artifactId>
+  <version>0.1.0</version>
+</dependency>
+```
+
 The library throws `Exception` so that `Retriable` doesn't have to rethrow
 checked exceptions as something else. `on()` accepts multiple
 exceptions:
